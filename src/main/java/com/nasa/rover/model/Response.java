@@ -1,23 +1,29 @@
 package com.nasa.rover.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
 
-    private List<Photo> photos;
+    private HttpStatus httpStatus;
+    private Integer photoCount;
 
     public Response() {
 
     }
 
-    public List<Photo> getPhotos() {
-        return photos;
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setPhotos(final List<Photo> photos) {
-        this.photos = photos;
+    public void setHttpStatus(final HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+
+    public Integer getPhotoCount() {
+        return photoCount;
+    }
+
+    public void setPhotoCount(final Integer photoCount) {
+        this.photoCount = photoCount;
     }
 }

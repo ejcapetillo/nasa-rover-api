@@ -16,6 +16,6 @@ public class RoverControllerAdvice {
 
     @ExceptionHandler(IOException.class)
     public HttpStatus invalidSourceUrlViolation(final IOException ex) {
-        return HttpStatus.NOT_FOUND;
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }

@@ -1,6 +1,6 @@
 package com.nasa.rover.service;
 
-import com.nasa.rover.model.Response;
+import com.nasa.rover.model.PhotoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ public class RoverService {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<Response> getPhotos(final String date) {
+    public ResponseEntity<PhotoWrapper> getPhotos(final String date) {
         final String apiKey = "DEMO_KEY";
         final String nasaURL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={apiKey}";
-        return restTemplate.getForEntity(nasaURL, Response.class, date, apiKey);
+        return restTemplate.getForEntity(nasaURL, PhotoWrapper.class, date, apiKey);
     }
 
 }
