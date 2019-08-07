@@ -6,6 +6,7 @@ public class Response {
 
     private HttpStatus httpStatus;
     private Integer photoCount;
+    private String errorMessage;
 
     public Response() {
 
@@ -25,5 +26,13 @@ public class Response {
 
     public void setPhotoCount(final Integer photoCount) {
         this.photoCount = photoCount;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

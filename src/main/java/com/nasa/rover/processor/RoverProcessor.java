@@ -35,9 +35,8 @@ public class RoverProcessor {
      * Method to begin the process of validation, retrieval, and downloading of photos from the NASA API
      * @param date Date to return photos from
      * @return response containing the HTTP status and the number of photos saved
-     * @throws IOException IOException thrown during photo download phase
      */
-    public Response getPhotos(final String date) throws IOException {
+    public Response getPhotos(final String date) {
         final Response response = new Response();
         response.setHttpStatus(HttpStatus.OK);
 
@@ -46,10 +45,16 @@ public class RoverProcessor {
             final List<Photo> photoList = Objects.requireNonNull(responseEntity.getBody()).getPhotos();
             if (photoList != null && !photoList.isEmpty()) {
                 response.setPhotoCount(photoList.size());
-                downloadPicture(date, photoList);
+                try {
+                    downloadPicture(date, photoList, response);
+                } catch (final IOException ex) {
+                    response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+                    response.setErrorMessage(ex.getMessage());
+                }
             }
         } else {
             response.setHttpStatus(HttpStatus.BAD_REQUEST);
+            response.setErrorMessage("Invalid Date Given (Must be YYY-MM-dd)");
         }
         return response;
     }
@@ -61,7 +66,7 @@ public class RoverProcessor {
      * @param photoList List of photo URLs retrieved from the NASA API
      * @throws IOException IOException thrown during photo download phase
      */
-    private void downloadPicture(final String date, final List<Photo> photoList) throws IOException {
+    private void downloadPicture(final String date, final List<Photo> photoList, final Response response) throws IOException {
         final File path = new File(date);
         final boolean isDirectoryCreated = path.exists() || path.mkdir();
 
@@ -75,7 +80,8 @@ public class RoverProcessor {
                 fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
             }
         } else {
-            throw new IOException("Path could not be created");
+            response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setErrorMessage("Unable to create save directory");
         }
     }
 }
