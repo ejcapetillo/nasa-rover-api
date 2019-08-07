@@ -12,10 +12,8 @@ public class Photo {
     @JsonProperty("earth_date")
     private String earthDate;
 
-    public Photo(final Long id, final String imgSrc, final String earthDate) {
-        this.id = id;
-        this.imgSrc = imgSrc;
-        this.earthDate = earthDate;
+    public Photo() {
+
     }
 
     public Long getId() {
