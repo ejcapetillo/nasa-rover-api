@@ -7,6 +7,7 @@ import com.nasa.rover.validator.DateValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -39,10 +40,17 @@ public class RoverProcessor {
     }
 
     private void downloadPicture(final String date, final String url) throws IOException {
-        final String fileName = url.substring(url.lastIndexOf("/") + 1);
-        final ReadableByteChannel readableByteChannel = Channels.newChannel(new URL(url).openStream());
-        final FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-        final FileChannel fileChannel = fileOutputStream.getChannel();
-        fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        final File path = new File(date);
+        final boolean isDirectoryCreated = path.exists() || path.mkdir();
+
+        if (isDirectoryCreated) {
+            final String fileName = date + url.substring(url.lastIndexOf("/"));
+            final ReadableByteChannel readableByteChannel = Channels.newChannel(new URL(url).openStream());
+            final FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            final FileChannel fileChannel = fileOutputStream.getChannel();
+            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        } else {
+            throw new IOException("Path could not be created");
+        }
     }
 }
