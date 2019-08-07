@@ -51,6 +51,8 @@ public class RoverProcessor {
                     response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
                     response.setErrorMessage(ex.getMessage());
                 }
+            } else {
+                response.setPhotoCount(0);
             }
         } else {
             response.setHttpStatus(HttpStatus.BAD_REQUEST);
