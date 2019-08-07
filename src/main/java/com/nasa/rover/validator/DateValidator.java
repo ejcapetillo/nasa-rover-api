@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Component
 public class DateValidator {
@@ -17,8 +18,12 @@ public class DateValidator {
         if (date == null || date.isEmpty()) {
             return false;
         } else {
-            final LocalDate convertedDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-            return !convertedDate.isAfter(LocalDate.now());
+            try {
+                final LocalDate convertedDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+                return !convertedDate.isAfter(LocalDate.now());
+            } catch (final DateTimeParseException ex) {
+                throw new DateTimeParseException("Invalid format (Must be YYY-MM-dd)", ex.getParsedString(), ex.getErrorIndex());
+            }
         }
     }
 }
