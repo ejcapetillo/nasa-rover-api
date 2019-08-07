@@ -16,6 +16,11 @@ public class RoverService {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Method to make Rest call to the NASA API
+     * @param date Date to query for photos
+     * @return Response Entity containing the results found through the NASA API
+     */
     public ResponseEntity<PhotoWrapper> getPhotos(final String date) {
         final String apiKey = "DEMO_KEY";
         final String nasaURL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={apiKey}";

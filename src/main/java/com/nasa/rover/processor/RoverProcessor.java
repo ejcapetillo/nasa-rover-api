@@ -31,6 +31,12 @@ public class RoverProcessor {
     }
 
 
+    /**
+     * Method to begin the process of validation, retrieval, and downloading of photos from the NASA API
+     * @param date Date to return photos from
+     * @return response containing the HTTP status and the number of photos saved
+     * @throws IOException IOException thrown during photo download phase
+     */
     public Response getPhotos(final String date) throws IOException {
         final Response response = new Response();
         response.setHttpStatus(HttpStatus.OK);
@@ -48,6 +54,13 @@ public class RoverProcessor {
         return response;
     }
 
+
+    /**
+     * Method to begin downloading photos from the NASA API
+     * @param date Date to be used as the Path name
+     * @param photoList List of photo URLs retrieved from the NASA API
+     * @throws IOException IOException thrown during photo download phase
+     */
     private void downloadPicture(final String date, final List<Photo> photoList) throws IOException {
         final File path = new File(date);
         final boolean isDirectoryCreated = path.exists() || path.mkdir();

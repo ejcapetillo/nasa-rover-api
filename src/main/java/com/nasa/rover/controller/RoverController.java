@@ -21,6 +21,12 @@ public class RoverController {
         this.roverProcessor = roverProcessor;
     }
 
+    /**
+     * Endpoint to return photos from NASA's Mars rover given a date in the YYYY-MM-dd format
+     * @param date Date to return photos from
+     * @return HTTP Status and number of photos to be saved, if applicable
+     * @throws IOException IOException thrown during photo download phase
+     */
     @GetMapping
     public Response getPhotos(@RequestParam(value = "date") final String date) throws IOException {
         return roverProcessor.getPhotos(date);
