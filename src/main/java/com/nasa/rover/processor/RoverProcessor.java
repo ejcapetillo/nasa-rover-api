@@ -19,6 +19,11 @@ public class RoverProcessor {
     public void getPhotos(final String date) {
         if (dateValidator.isDateValid(date)) {
             roverService.getPhotos(date);
+            createPhotoDirectory(date);
         }
+    }
+
+    private void createPhotoDirectory(final String date) {
+
     }
 }
